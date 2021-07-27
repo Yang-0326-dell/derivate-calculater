@@ -1,0 +1,639 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+#include <array>
+#include <string>
+#include <cstring>
+#include<sstream>
+#include <stdexcept>
+#include <vector>
+using std::vector;
+#include <fstream>
+#include<ctime>
+#include <string>
+#include <time.h> 
+#pragma warning( disable : 4996 )
+
+
+struct return1 {
+	int content;
+	bool state;
+};
+
+vector<int> gettime(bool state)
+{
+
+	time_t rawtime;
+	struct tm* ptminfo;
+	time(&rawtime);
+	ptminfo = localtime(&rawtime);
+	/*printf("current: %02d-%02d-%02d %02d:%02d:%02d\n",
+		ptminfo->tm_year + 1900, ptminfo->tm_mon + 1, ptminfo->tm_mday,
+		ptminfo->tm_hour, ptminfo->tm_min, ptminfo->tm_sec);*/
+	vector<int> t;
+	t.push_back(ptminfo->tm_sec);
+	t.push_back(ptminfo->tm_min);
+	t.push_back(ptminfo->tm_hour);
+	t.push_back(ptminfo->tm_mday);
+	t.push_back(ptminfo->tm_mon);
+	t.push_back(ptminfo->tm_year);
+
+	return t;
+}
+
+//calculate time
+long long timing(vector<int>t1, vector<int> t2, string con) {
+	long long time = t2[0] - t1[0] + (t2[1] - t1[1]) * 60 + (t2[2] - t1[2]) * 3600 + (t2[3] - t1[3]) * 86400 + (t2[4] - t1[4]) * 2592000 + (t2[5] - t1[5]) * 31104000;
+
+
+	cout << con << " " << time << "s" << endl;
+	return time;
+}
+
+
+return1 input1(long m) {
+	//begin:
+	string x;
+	long long k = 0;
+	cout << "a_" << m << "=";
+	cin.clear();
+	cin.sync();
+	cin >> x;
+	istringstream is(x);
+	is >> k;
+	string y = to_string(k);
+	//cout << x << y;
+	if (x == y) {
+		struct return1 result;
+		result.content = k;
+		result.state = 0;
+		cout << endl;
+		return result;
+	}
+
+	else {
+		cout << "size of a_" << m << "\r is " << sizeof(k) << endl;
+		cout << "not valid a_" << m << "! Please try again.\na_" << m << "=";
+		goto end;
+
+	}
+end:
+	struct return1 result;
+	result.content = 0;
+	result.state = 1;
+	return result;
+	throw runtime_error("Not valid answer!");
+
+}
+
+long input2(string con) {
+begin:
+	string x;
+	long k = 0;
+	cout << con;
+	cin.clear();
+	cin.sync();
+	cin >> x;
+	istringstream is(x);
+	is >> k;
+	string y = to_string(k);
+	//cout << x << y;
+	if (x == y) {
+		cout << endl;
+		return k;
+	}
+
+	else {
+		cout << "not valid answer! Please try again.\n" << con;
+		goto begin;
+
+	}
+}
+
+bool clean() {
+	cout << "Need to clean the screen? Answer y or n:";
+	string ans = "";
+	cin >> ans;
+
+	if (ans == "y") {
+		system("cls");
+		return 1;
+	}
+	else if (ans == "n") {
+		return 0;
+	}
+	else {
+
+	}
+}
+
+int checkup(int n, vector<long> a) {
+	int sub = 0;
+	int n_max = sizeof(a) / sizeof(a[0]) - 1;
+	cout << n << endl;
+	while (1) {
+		if (sub <= n)
+			cout << "a_" << sub << "=" << a[sub] << endl;
+		if (sub == n) {
+			return 0;
+			break;
+		}
+		else if (sub > n) {
+			return 1;
+			break;
+		}
+		sub++;
+
+	}
+
+}
+
+int checkup2(int n, vector<long long> a) {
+	int sub = 0;
+	int n_max = sizeof(a) / sizeof(a[0]) - 1;
+	cout << n << endl;
+	while (1) {
+		if (sub <= n)
+			cout << "a_" << sub << "=" << a[sub] << endl;
+		if (sub == n) {
+			return 0;
+			break;
+		}
+		else if (sub > n) {
+			return 1;
+			break;
+		}
+		sub++;
+
+	}
+
+}
+
+bool choose(string what) {
+begin:
+	cout << what;
+	cout << "Enter y(yes) or n(no): ";
+	string result;
+	while (cin >> result) {
+		try {
+			if (result != "n" && result != "y")
+				throw runtime_error("invalid answer!");
+			else
+				break;
+		}
+		catch (runtime_error err) {
+			cout << err.what()
+				<< "\ntry again!\n"
+				<< what << "(enter y or n)";
+		}
+
+	}
+	if (result == "n")
+		return 1;
+	if (result == "y")
+		return 0;
+}
+
+int continue1() {
+begin:
+	//cout << "sure to continue?" << endl;
+	int ans = choose("sure to continue?");
+	if (ans == 0)
+		;
+	else
+		goto begin;
+	return 0;
+}
+
+
+bool wait() {
+	cout << "Push any key to exit";
+	string wait;
+	fstream file("promotion.html", ios::out);
+	file << " " << endl;
+	file << "<html><head><p style='color:white;background-color:blue;font-size:50px'>Thanks for using the program!<br/><p style='color:red;font-size:30px'>Spent nearly 30 hours on that simple program😂<br/>Hope Everyone will love it.</p></p></head><body>";
+	file << "<div id = 'last' style = 'background-color:rgb(80,93,109);margin-top:200px;margin-bottom:0;height:400px;width:100%'><div style = 'float:left;margin-left:100px;'><p style = 'color:red;font-size:50px'>feedback</p><a target = '_blank' value = 'QQ' title = 'Click to open QQ to feed back;'  href = 'http://wpa.qq.com/msgrd?v=3&uin=1803784472&site=qq&menu=yes'><p style = 'color:snow;font-style:italic;font-weight:lighter;font-size:20px;margin-left:20px'>QQ</p></a><a target = '_blank' value = 'Mail' title = 'Click to open Mail to feed back;'  href = 'mailto:yangjinxun2006@gmail?Subject=Feed%20back%20%20(name:  )'><p id = 'mail' style = 'color:snow;font-style:italic;font-size:20px;margin-left:20px'>email</p></a><a target = '_blank' value = 'Telegram' title = 'Click to open telegram to feed back;'  href = 'https://t.me/invisible2006y'><p  style = 'color:snow;font-style:italic;font-weight:lighter;font-size:20px;margin-left:20px'>Telegram</p></a><a target = '_blank' value = 'Messenger' title = 'Click to open telegram to feed back;'  href = 'sms:+8613277083896'><p id = 'messenger' style = 'color:snow;font-style:italic;font-weight:lighter;font-size:20px;margin-left:20px'>messenger</p></a></div></div>";
+	file << "</body></html>";
+	file.close();
+	system("promotion.html");
+	cin >> wait;
+	if (wait != "0")
+		return 0;
+	else
+		return -1;
+}
+
+/**************************************************************************************************/
+
+vector<long long> calculate(vector<long> a, long n, long times, bool state) {
+begin:
+	long power = n - times;
+	vector<long long> a1(power + 1);
+
+	long i = power;
+	while (1) {
+		if (i >= 0) {
+			long j = 0;
+			a1[i] = a[n];
+			while (1) {
+				if (j <= times - 1) {
+					a1[i] *= (n - j);
+					j++;
+				}
+				else
+					break;
+			}
+			i--;
+			n--;
+		}
+
+		else
+			break;
+	}
+
+	return a1;
+}
+
+/**************************************************************************************************/
+
+int show(vector<long long>a, bool state, long n, long times, long x) {
+	long m = sizeof(a) / sizeof(a[0]);
+	cout << "The result is:" << endl;
+	for (int i = 0; i <= 30; i++)
+		cout << "*";
+	cout << endl;
+	cout << "\r\r\r\r(" << times << ")" << endl;
+	cout << "f(x)=";
+	long i = n;
+	while (1) {
+		if (i < 0) {
+			break;
+			i--;
+		}
+		else if (i >= 1) {
+			if (a[i] == 1) {
+				cout << "x^";
+				cout << i;
+			}
+			else if (a[i] == -1) {
+				cout << "-x^" << i;
+			}
+			else if (a[i] == 0)
+				;
+			else {
+				cout << a[i] << "x^" << i;
+			}
+			if (a[i - 1] > 0)
+				cout << "+";
+			else
+				;
+		}
+		else if (i == 0) {
+			if (a[0] != 0) {
+				if (a[0] > 0)
+					;
+				else
+					cout << "0";
+				;
+				cout << a[0];
+			}
+		}
+		i--;
+	}
+	if (n < 0) {
+		cout << 0;
+	}
+	cout << endl;
+	cout << endl;
+	for (int i = 0; i <= 30; i++)
+		cout << "*";
+	cout << endl;
+	if (n < 0) {
+		cout << "Why bother to use the program to do such an easy job????" << endl;;
+	}
+	else if (x > 0 && a[n] <= 0) {
+		for (int i = 0; i <= 2; i++)
+			cout << "To hell with it! Choose a smaller number next time!!!" << endl;
+	}
+	else if (x < 0 && a[n] >= 0) {
+		for (int i = 0; i <= 2; i++)
+			cout << "To hell with it! Choose a smaller number next time!!!" << endl;
+	}
+
+	return 0;
+}
+
+string txt1(vector<long long>a, vector<long>a1, bool state, long n, long times, long y) {
+	time_t now = time(0);
+	char* dt = ctime(&now);
+
+	fstream x("results.txt", ios::app);
+	for (int i = 0; i <= 30; i++)
+		x << "*";
+	x << "\r\n";
+	x << dt;
+
+
+	long m = sizeof(a) / sizeof(a[0]);
+
+	string txt;//kinda big, maybe
+
+	//Show the initial function
+	long j = y;
+	x << "The initial function is:\n\rf(x)=";
+
+	while (1) {
+		if (j > 0) {
+			if (a1[j] == 1) {
+				x << "x^";
+				x << j;
+			}
+			else if (a1[j] == -1) {
+				x << "-x^";
+				x << j;
+			}
+			else if (a1[j] == 0)
+				;
+			else {
+				x << a1[j];
+				x << "x^";
+				x << j;
+			}
+
+			if (a1[j - 1] >= 0)
+				x << "+";
+			else
+				//x << "-";
+				;
+		}
+
+		else if (j == 0) {
+			if (a1[0] != 0) {
+				if (a1[0] > 0)
+					//x << "+";
+					;
+				else
+					;
+
+				x << a1[0];
+			}
+		}
+		else if (j < 0) {
+			break;
+		}
+
+		j--;
+	}
+
+	x << "\r\nThe result is:\r\n";
+	for (int i = 0; i <= 30; i++)
+		x << "*";
+	x << "\r\n\r\r(";
+	x << times;
+	x << ")\nf(x)=";
+	long i = n;
+	while (1) {
+		if (i < 0) {
+			break;
+
+		}
+		else if (i >= 1) {
+			if (a[i] == 1) {
+				x << "x^";
+				x << i;
+			}
+			else if (a[i] == -1) {
+				x << "-x^";
+				x << i;
+			}
+			else if (a[i] == 0)
+				;
+			else {
+				x << a[i];
+				x << "x^";
+				x << i;
+			}
+			if (a[i - 1] > 0)
+				x << "+";
+
+			else
+				;
+		}
+		else if (i == 0) {
+			if (a[0] != 0) {
+				if (a[0] > 0)
+					;
+				else
+					;
+				x << a[0];
+			}
+		}
+		i--;
+	}
+	if (n < 0) {
+		x << "0";
+	}
+	x << "\r\n";
+	x << "\r\n";
+	x << "\r\n";
+	if (n < 0) {
+		x << "Why bother to use the program to do the easy hai????";
+	}
+	else if (a1[y] > 0 && a[n] <= 0) {
+		for (int i = 0; i <= 2; i++)
+			x << "To hell with it! Choose a smaller number next time!!!";
+		x << "\r\n";
+
+	}
+	else if (a1[y] < 0 && a[n] >= 0) {
+		for (int i = 0; i <= 2; i++)
+			x << "To hell with it! Choose a smaller number next time!!!";
+		x << "\r\n";
+
+	}
+
+
+
+	x << "\r\n\r\n";
+
+	x.close();
+
+
+	return txt;
+}
+
+int file(string txt, bool state) {
+	time_t now = time(0);
+
+	char* dt = ctime(&now);
+
+	//cout << "本地日期和时间：" << dt << endl;
+
+	//	tm* gmtm = gmtime(&now);
+	//dt = asctime(gmtm);
+	//cout << "UTC 日期和时间：" << dt << endl;
+
+	fstream x("results.txt", ios::app);
+	x << dt;
+	x << "\r\n";
+	x << txt;
+	x << "\r\n\r\n";
+	x.close();
+	return 0;
+}
+
+int main(){
+vector<int> t1, t2, t3,t31,t32, t4, t5, t6, t7, t8, t9;
+long long x1, x2, x3, x4, x5, x6, x7;
+	t1 = gettime(1);
+	bool cl;
+	cout << "input the function that you want to calculate its derivate:(We can only calculate the function take form of 'f(x)=a_n·x^n+a_(n-1)·x^(n-1)+......+a_0;" << endl;
+	begin2:
+	cout << "How many is the highest power?"<<endl;
+	long n = input2("n=");
+	cout << "How many times you want to derivate the function?" << endl;
+	long times = input2("times=");
+
+begin1:
+
+	//int a[];
+	long sub=0;
+	
+	try {
+		if (n < 0 )
+			throw runtime_error("n and times can't be negative!");
+	}
+	catch (runtime_error err){
+		cout << err.what() <<"Please try again"<< endl;
+		int ans;
+		ans = choose("");
+		if (ans == 0) {
+			goto begin2;
+		}
+		else {
+			cout << "Force to exit!" << endl;
+			wait();
+			return 0;
+		}
+
+	}
+
+	cout << "input the coefficients;"<<endl;
+
+	vector<long> a(n+1);
+
+	t2 = gettime(1);//t2 is the time before typing.
+
+		while (1) {
+		
+			if (sub >n)
+				break;
+			else {
+				struct return1 result;
+				result = input1(sub);
+				if (result.state == 0) {
+					a[sub] = result.content;
+					sub++;
+				}
+				else
+					cout << "Not valid answer! Please try again" << endl;
+			}
+		}
+		t3 = gettime(1);//t3 is the time after typing.
+
+		int ans3 = choose("Want to check those you have entered again?");
+		t31 = gettime(1);
+		if (ans3 == 0){ 
+			checkup(n, a);
+		}
+		else
+		
+		;
+			t32 = gettime(1);
+
+		int ans = choose("sure to continue?(if answer is no, you'll input the numbers again.)");
+		if (ans == 0)
+			;
+		else
+			goto begin1;
+	
+		t4 = gettime(1);//t4 is the time before calculating.
+		vector<long long> a1;
+		if (n >= times)
+			 a1 = calculate(a, n, times, 0);
+		else {
+			a1.push_back(0);
+		}
+		cl = clean();
+		t5 = gettime(1);//t5 is the time after calculating.
+
+		string show1;
+		cout << "Want to see the calculating process? Answer y or n:";
+		if (cin >> show1) 
+			if (show1 == "y")
+				checkup2(n - times, a1);
+		
+		t6 = gettime(1);//t6 is the time before showing.
+
+		show(a1, 0,n- times,times,a[n]);
+		t7 = gettime(1);//t7 is the time after showing.
+
+		string txt = "";
+		int m;
+		
+		x1 = timing(t2, t3, "The time you spend in typing is");
+		x2 = timing(t31, t32, "The time of showing the coefficients is");
+		x3 = timing(t4, t5, "The time of calculating is");
+		x4 = timing(t6, t7, "The time of showing results is");
+		
+		int ans1 = choose("Would you like to save the result as a file?");
+		if (ans1 == 0) {
+			fstream file("results.txt", ios::app);
+			file << "Typing: " << x1 << "s\r\n";
+			file << "Showing typed:" << x2 << "s\r\n";
+			file << "Calculate:" << x3 << " s\r\n";
+			file << "Showing result: " << x4 << " s\r\n";
+			if (x3 != 0)
+				cout << "I think you should buy a new computer. So slow!!!   :(" << endl;
+			t8 = gettime(1);//t8 is the time before storing.
+		txt = txt1(a1,a, 0, n - times, times,n);
+		
+
+		t9 = gettime(1);//t9 is the time after storing.
+		
+		x5 = timing(t8, t9, "The time of storing is");
+		file << "Storing: " << x5 << " s\r\n";
+		x6 = timing(t1, t9, "Total time is");
+		file << "Total time:" << x6 << " s\r\n";
+		for (int i = 0; i <= 30; i++)
+		file<<"*";
+		file << "\r\n\r\n" ;
+		file.close();
+
+
+
+		}
+
+
+			
+		else {
+			t9 = gettime(1);//
+			x6 = timing(t1, t9, "Total time is");
+
+			goto end1;
+		}
+
+
+		cout << txt << endl;
+
+		cout << "Please wait..." << endl;
+
+
+		
+
+	end1:
+		cout << "If you have any advice or question, please contact the developer on twitter, telegram, QQ or email." << endl;
+		int exit = wait();
+
+	return exit;
+}
